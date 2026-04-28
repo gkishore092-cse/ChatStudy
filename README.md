@@ -73,6 +73,76 @@ Client-server chat applications are versatile tools that facilitate real-time co
 
 Client-server chat applications are foundational to real-time communication over networks. They incorporate principles of socket programming, communication protocols, and security mechanisms to provide a seamless user experience. Understanding the basics of client-server chat applications is essential for developers involved in networked application development, as they form the backbone of various collaborative communication systems. As technology evolves, chat applications continue to adapt, incorporating new features and technologies to enhance user interaction and connectivity.
 
+# Program:
+```
+import socket
+import threading
+
+def run_server():
+    server = socket.socket()
+    host = socket.gethostname()
+    port = 8080
+
+    server.bind((host, port))
+    server.listen(1)
+
+    print("Server running on", host)
+    conn, addr = server.accept()
+    print(addr, "connected to server")
+
+    # Server starts conversation
+    conn.send("Hello Client, Welcome!".encode())
+
+    while True:
+        msg = conn.recv(1024).decode()
+        if msg.lower() == "bye":
+            print("Client ended chat")
+            break
+        print("Client:", msg)
+
+        reply = input("Server >> ")
+        conn.send(reply.encode())
+        if reply.lower() == "bye":
+            break
+
+    conn.close()
+
+
+def run_client():
+    client = socket.socket()
+    host = socket.gethostname()
+    port = 8080
+
+    client.connect((host, port))
+    print("Connected to server")
+
+    # Receive first message
+    msg = client.recv(1024).decode()
+    print("Server:", msg)
+
+    while True:
+        msg = input("Client >> ")
+        client.send(msg.encode())
+        if msg.lower() == "bye":
+            break
+
+        reply = client.recv(1024).decode()
+        print("Server:", reply)
+        if reply.lower() == "bye":
+            break
+
+    client.close()
+
+
+threading.Thread(target=run_server).start()
+threading.Thread(target=run_client).start()
+```
+
+# Output:
+
+<img width="524" height="265" alt="Screenshot 2026-04-28 161736" src="https://github.com/user-attachments/assets/0dc605d1-eb99-490e-8679-9c86343a76eb" />
+
+
 
 ## Result:
 
