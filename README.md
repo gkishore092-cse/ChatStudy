@@ -139,7 +139,6 @@ threading.Thread(target=run_client).start()
 ```
 
 # Output:
-
 <img width="524" height="265" alt="Screenshot 2026-04-28 161736" src="https://github.com/user-attachments/assets/0dc605d1-eb99-490e-8679-9c86343a76eb" />
 
 
